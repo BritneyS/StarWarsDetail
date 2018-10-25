@@ -14,6 +14,10 @@ class CharacterListViewController: UIViewController {
     
     // MARK: Properties
     
+    /// URLs
+    let filmURL = URL(string: "https://swapi.co/api/films/2")
+    var filmData: Film?
+    
     // MARK: Lifecyle
 
     override func viewDidLoad() {
@@ -38,12 +42,44 @@ class CharacterListViewController: UIViewController {
 extension CharacterListViewController {
     
     /// get urls
-    /// films/2
+    /// films/2 ✅
     /// people ([])
     /// species ([])
     /// planets
     
+    func parseFilmData(data: Data) -> Film? {
+        do {
+            let decoder = JSONDecoder()
+            let result = try decoder.decode(Film.self, from: data)
+            return result
+        } catch {
+            print("Error in JSON parsing")
+            return nil
+        }
+    }
     
     /// parse JSON response asynchronously
+    
+    func getData(from url: URL) {
+        let session = URLSession.shared
+        performDataTask(session: session, url: url)
+    }
+    
+    func performDataTask(session: URLSession, url: URL) {
+        let dataTask = session.dataTask(with: url, completionHandler: { data, response, error in
+            if let error = error {
+                print(error)
+            } else { ///Successful call
+                ///confirming response
+                guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                    print("Bad response: \(response!)")
+                    return
+                }
+                ///successful response
+                print("Successful response \(response!) with data: \(data!)")
+                
+            }
+        })
+    }
     
 }
