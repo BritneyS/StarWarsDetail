@@ -16,12 +16,14 @@ class CharacterListViewController: UIViewController {
     
     /// URLs
     let filmURL = URL(string: "https://swapi.co/api/films/2")
-    var filmData: Film?
+    var filmObject: Film?
+    var personObject: Person?
     
     // MARK: Lifecyle
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        getData(from: filmURL!)
     }
     
 
@@ -62,10 +64,17 @@ extension CharacterListViewController {
     
     func getData(from url: URL) {
         let session = URLSession.shared
-        performDataTask(session: session, url: url)
+        performFilmDataTask(session: session, url: url)
+        let personURLArray = filmObject?.characters
+        
+        for url in personURLArray! {
+            //performPersonDataTask(session: session, url: url)
+        }
     }
     
-    func performDataTask(session: URLSession, url: URL) {
+    func performPersonDataTask(
+    
+    func performFilmDataTask(session: URLSession, url: URL) {
         let dataTask = session.dataTask(with: url, completionHandler: { data, response, error in
             if let error = error {
                 print(error)
@@ -78,8 +87,28 @@ extension CharacterListViewController {
                 ///successful response
                 print("Successful response \(response!) with data: \(data!)")
                 
+                guard let data = data else {
+                    DispatchQueue.main.async {
+                        //self.isLoading = false
+                        //self.showNetworkError()
+                    }
+                    return
+                }
+                
+                ///parse data
+                self.filmObject = self.parseFilmData(data: data)
+                ///work with parsed data
+                DispatchQueue.main.async {
+                    ///work with data
+                    for person in (self.filmObject?.characters)! {
+                    print("Film Object characters: \(person)")
+                        
+                    
+                    }
+                }
             }
         })
+        dataTask.resume()
     }
     
 }
