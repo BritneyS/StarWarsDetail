@@ -10,4 +10,8 @@ import Foundation
 
 class Film: Codable {
     let characters: [People]
+    
+    init(characters: [People]) {
+        self.characters = characters
+    }
 }
