@@ -14,10 +14,18 @@ class CharacterListViewController: UIViewController {
     
     // MARK: Properties
     
+    /// URLs
+    let filmURLstring = "https://swapi.co/api/films/2/"
+    let peopleURL = URL(string: "https://swapi.co/api/people/")
+    var filmObject: Film?
+    var personObject: [Person?] = []
+    
     // MARK: Lifecyle
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        guard let peopleURL = peopleURL else { return }
+        getData(from: peopleURL)
     }
     
 
@@ -31,4 +39,66 @@ class CharacterListViewController: UIViewController {
     }
     */
 
+}
+
+// MARK: API Call
+
+extension CharacterListViewController {
+    
+    func parsePersonData(data: Data) -> [Person?] {
+        do {
+            let decoder = JSONDecoder()
+            let result = try decoder.decode(PersonArray.self, from: data)
+            return result.results
+        } catch {
+            print("Error in JSON parsing for Person data")
+            return []
+        }
+    }
+    
+    /// parse JSON response asynchronously
+    
+    func getData(from url: URL) {
+        let session = URLSession.shared
+        performPersonDataTask(session: session, url: url)
+    }
+    
+    func performPersonDataTask(session: URLSession, url: URL) {
+        let dataTask = session.dataTask(with: url, completionHandler: { data, response, error in
+            if let error = error {
+                print(error)
+            } else { ///Successful call
+                ///confirming response
+                guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                    print("Bad response: \(response!)")
+                    return
+                }
+                ///successful response
+                print("Successful response \(response!) with data: \(data!)")
+                
+                guard let data = data else {
+                    DispatchQueue.main.async {
+                        //TODO: Make this: self.isLoading = false
+                        //TODO: Write this: self.showNetworkError()
+                    }
+                    return
+                }
+                
+                ///parse data
+                self.personObject = self.parsePersonData(data: data)
+                ///work with parsed data
+                DispatchQueue.main.async {
+                    ///work with data
+                    for person in self.personObject {
+                        guard let person = person else { return }
+                        if person.films.contains(self.filmURLstring) {
+                            print("👍Person Object characters: \(person.name)")
+                        }
+                    }
+                }
+            }
+        })
+        dataTask.resume()
+    }
+    
 }
