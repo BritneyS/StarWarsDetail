@@ -32,3 +32,18 @@ class CharacterListViewController: UIViewController {
     */
 
 }
+
+// MARK: API Call
+
+extension CharacterListViewController {
+    
+    /// get urls
+    /// films/2
+    /// people ([])
+    /// species ([])
+    /// planets
+    
+    
+    /// parse JSON response asynchronously
+    
+}
