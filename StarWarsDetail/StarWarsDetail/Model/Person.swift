@@ -1,5 +1,5 @@
 //
-//  People.swift
+//  Person.swift
 //  StarWarsDetail
 //
 //  Created by Britney Smith on 10/25/18.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class People: Codable {
+class Person: Codable {
     let name: String
     let birth_year: String
     let gender: String
