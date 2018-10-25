@@ -8,18 +8,16 @@
 
 import Foundation
 
+class PersonArray: Codable {
+    let count: Int
+    let results: [Person]
+}
+
 class Person: Codable {
     let name: String
     let birth_year: String
     let gender: String
     let species: [String]
     let homeworld: String
-    
-    init(name: String, birth_year: String, gender: String, species: [String], homeworld: String) {
-        self.name = name
-        self.birth_year = birth_year
-        self.gender = gender
-        self.species = species
-        self.homeworld = homeworld
-    }
+    let films: [String]
 }

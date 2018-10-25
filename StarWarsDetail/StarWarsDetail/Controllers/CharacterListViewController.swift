@@ -15,15 +15,16 @@ class CharacterListViewController: UIViewController {
     // MARK: Properties
     
     /// URLs
-    let filmURL = URL(string: "https://swapi.co/api/films/2")
+    let filmURLstring = "https://swapi.co/api/films/2/"
+    let peopleURL = URL(string: "https://swapi.co/api/people/")
     var filmObject: Film?
-    var personObject: Person?
+    var personObject: [Person?] = []
     
     // MARK: Lifecyle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        getData(from: filmURL!)
+        getData(from: peopleURL!)
     }
     
 
@@ -43,20 +44,14 @@ class CharacterListViewController: UIViewController {
 
 extension CharacterListViewController {
     
-    /// get urls
-    /// films/2 ✅
-    /// people ([])
-    /// species ([])
-    /// planets
-    
-    func parseFilmData(data: Data) -> Film? {
+    func parsePersonData(data: Data) -> [Person?] {
         do {
             let decoder = JSONDecoder()
-            let result = try decoder.decode(Film.self, from: data)
-            return result
+            let result = try decoder.decode(PersonArray.self, from: data)
+            return result.results
         } catch {
-            print("Error in JSON parsing")
-            return nil
+            print("Error in JSON parsing for Person data")
+            return []
         }
     }
     
@@ -64,17 +59,10 @@ extension CharacterListViewController {
     
     func getData(from url: URL) {
         let session = URLSession.shared
-        performFilmDataTask(session: session, url: url)
-        let personURLArray = filmObject?.characters
-        
-        for url in personURLArray! {
-            //performPersonDataTask(session: session, url: url)
-        }
+        performPersonDataTask(session: session, url: url)
     }
     
-    func performPersonDataTask(
-    
-    func performFilmDataTask(session: URLSession, url: URL) {
+    func performPersonDataTask(session: URLSession, url: URL) {
         let dataTask = session.dataTask(with: url, completionHandler: { data, response, error in
             if let error = error {
                 print(error)
@@ -89,21 +77,21 @@ extension CharacterListViewController {
                 
                 guard let data = data else {
                     DispatchQueue.main.async {
-                        //self.isLoading = false
-                        //self.showNetworkError()
+                        //TODO: Make this: self.isLoading = false
+                        //TODO: Write this: self.showNetworkError()
                     }
                     return
                 }
                 
                 ///parse data
-                self.filmObject = self.parseFilmData(data: data)
+                self.personObject = self.parsePersonData(data: data)
                 ///work with parsed data
                 DispatchQueue.main.async {
                     ///work with data
-                    for person in (self.filmObject?.characters)! {
-                    print("Film Object characters: \(person)")
-                        
-                    
+                    for person in self.personObject {
+                        if (person?.films.contains(self.filmURLstring))! {
+                            print("👍Person Object characters: \(person!.name)")
+                        }
                     }
                 }
             }
