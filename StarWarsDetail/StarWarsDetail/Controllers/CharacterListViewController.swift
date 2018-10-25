@@ -24,7 +24,8 @@ class CharacterListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        getData(from: peopleURL!)
+        guard let peopleURL = peopleURL else { return }
+        getData(from: peopleURL)
     }
     
 
@@ -89,8 +90,9 @@ extension CharacterListViewController {
                 DispatchQueue.main.async {
                     ///work with data
                     for person in self.personObject {
-                        if (person?.films.contains(self.filmURLstring))! {
-                            print("👍Person Object characters: \(person!.name)")
+                        guard let person = person else { return }
+                        if person.films.contains(self.filmURLstring) {
+                            print("👍Person Object characters: \(person.name)")
                         }
                     }
                 }
