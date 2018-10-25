@@ -9,9 +9,11 @@
 import Foundation
 
 class Film: Codable {
+    let title: String
     let characters: [Person]
     
-    init(characters: [Person]) {
+    init(title: String, characters: [Person]) {
+        self.title = title
         self.characters = characters
     }
 }
