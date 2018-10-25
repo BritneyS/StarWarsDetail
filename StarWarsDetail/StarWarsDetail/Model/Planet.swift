@@ -1,5 +1,5 @@
 //
-//  Film.swift
+//  Planet.swift
 //  StarWarsDetail
 //
 //  Created by Britney Smith on 10/25/18.
@@ -8,10 +8,10 @@
 
 import Foundation
 
-class Film: Codable {
-    let characters: [Person]
+class Planet: Codable {
+    let name: String
     
-    init(characters: [Person]) {
-        self.characters = characters
+    init(name: String) {
+        self.name = name
     }
 }
