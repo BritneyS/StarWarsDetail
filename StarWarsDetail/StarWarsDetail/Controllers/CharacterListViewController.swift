@@ -11,6 +11,7 @@ import UIKit
 class CharacterListViewController: UIViewController {
     
     // MARK: Outlets
+    @IBOutlet weak var characterListTableView: UITableView!
     
     // MARK: Properties
     
@@ -24,6 +25,7 @@ class CharacterListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         guard let peopleURL = peopleURL else { return }
         getData(from: peopleURL)
     }
@@ -40,6 +42,7 @@ class CharacterListViewController: UIViewController {
     */
 
 }
+
 
 // MARK: API Call
 
