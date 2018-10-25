@@ -9,5 +9,5 @@
 import Foundation
 
 class Film: Codable {
-    let characters: [Characters]
+    let characters: [People]
 }
