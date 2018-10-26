@@ -51,10 +51,10 @@
             </objects>
             <point key="canvasLocation" x="136.80000000000001" y="98.50074962518741"/>
         </scene>
-        <!--View Controller-->
+        <!--Character Detail View Controller-->
         <scene sceneID="jEC-n3-IjC">
             <objects>
-                <viewController id="d4v-hl-HAs" sceneMemberID="viewController">
+                <viewController id="d4v-hl-HAs" customClass="CharacterDetailViewController" customModule="StarWarsDetail" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ITt-Jm-d6f">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
