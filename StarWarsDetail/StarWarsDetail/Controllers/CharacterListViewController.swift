@@ -46,7 +46,7 @@ class CharacterListViewController: UIViewController {
 
 // MARK: UITableViewDelegate and UITableViewDataSource Implementation
 
-extension CharacterListViewController: UITableViewDelegate, UITableViewDataSource {
+extension CharacterListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return personObject.count
@@ -57,11 +57,13 @@ extension CharacterListViewController: UITableViewDelegate, UITableViewDataSourc
         cell.textLabel?.text = personObject[indexPath.row]?.name
         return cell
     }
+}
+
+extension CharacterListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
     
 }
 
