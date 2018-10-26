@@ -18,34 +18,42 @@ class CharacterListViewController: UIViewController {
     
     /// URLs
     let filmURLstring = "https://swapi.co/api/films/2/"
-    let peopleURLOne = URL(string: "https://swapi.co/api/people/?page=1") /// TODO: Add multiple pages
-    let peopleURLTwo = URL(string: "https://swapi.co/api/people/?page=2")
-    let peopleURLThree = URL(string: "https://swapi.co/api/people/?page=3")
-    let peopleURLFour = URL(string: "https://swapi.co/api/people/?page=4")
-    let peopleURLFive = URL(string: "https://swapi.co/api/people/?page=5")
-    let peopleURLSix = URL(string: "https://swapi.co/api/people/?page=6")
-    let peopleURLSeven = URL(string: "https://swapi.co/api/people/?page=7")
-    let peopleURLEight = URL(string: "https://swapi.co/api/people/?page=8")
-    let peopleURLNine = URL(string: "https://swapi.co/api/people/?page=9")
+//    let peopleURLOne = URL(string: "https://swapi.co/api/people/?page=1") /// TODO: Add multiple pages
+//    let peopleURLTwo = URL(string: "https://swapi.co/api/people/?page=2")
+//    let peopleURLThree = URL(string: "https://swapi.co/api/people/?page=3")
+//    let peopleURLFour = URL(string: "https://swapi.co/api/people/?page=4")
+//    let peopleURLFive = URL(string: "https://swapi.co/api/people/?page=5")
+//    let peopleURLSix = URL(string: "https://swapi.co/api/people/?page=6")
+//    let peopleURLSeven = URL(string: "https://swapi.co/api/people/?page=7")
+//    let peopleURLEight = URL(string: "https://swapi.co/api/people/?page=8")
+//    let peopleURLNine = URL(string: "https://swapi.co/api/people/?page=9")
     var filmObject: Film?
     var personObject: [Person?] = []
     var filteredPersonArray: [Person] = []
     var callCount = 0
+    var urlArray: [URL] = []
     
     // MARK: Lifecyle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let urlArray = [peopleURLOne, peopleURLTwo, peopleURLThree, peopleURLFour, peopleURLFive, peopleURLSix, peopleURLSeven, peopleURLEight, peopleURLNine]
         
+        populateURLArray()
         for url in urlArray {
-            guard let url = url else { return }
             getData(from: url)
-            //callCount += 1
-            //print("Call count: \(callCount)")
         }
     }
     
+    // MARK: Methods
+    
+    func populateURLArray() {
+        var pageNumber = 1
+        while pageNumber <= 9 {
+            guard let peopleURL = URL(string: "https://swapi.co/api/people/?page=\(pageNumber)") else { return }
+            urlArray.append(peopleURL)
+            pageNumber += 1
+        }
+    }
 
     /*
     // MARK: - Navigation
