@@ -53,8 +53,13 @@ extension CharacterListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "characterCell", for: indexPath)
-        cell.textLabel?.text = personObject[indexPath.row]?.name
+        let cell = tableView.dequeueReusableCell(withIdentifier: Identity.characterCell.cellID, for: indexPath)
+        for person in self.personObject {
+            guard let person = person else { return cell }
+            if person.films.contains(self.filmURLstring) {
+                cell.textLabel?.text = personObject[indexPath.row]?.name
+            }
+        }
         return cell
     }
 }
