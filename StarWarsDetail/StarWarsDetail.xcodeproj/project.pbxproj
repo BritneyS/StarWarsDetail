@@ -16,6 +16,7 @@
 		06B440AD21820D470062BEDF /* Species.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B440AC21820D470062BEDF /* Species.swift */; };
 		06B440AF21820E3E0062BEDF /* Planet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B440AE21820E3E0062BEDF /* Planet.swift */; };
 		06B440B1218213D00062BEDF /* CharacterListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B440B0218213D00062BEDF /* CharacterListViewController.swift */; };
+		06B440B5218295D60062BEDF /* Identity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B440B4218295D60062BEDF /* Identity.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		06B440AC21820D470062BEDF /* Species.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Species.swift; sourceTree = "<group>"; };
 		06B440AE21820E3E0062BEDF /* Planet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Planet.swift; sourceTree = "<group>"; };
 		06B440B0218213D00062BEDF /* CharacterListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterListViewController.swift; sourceTree = "<group>"; };
+		06B440B4218295D60062BEDF /* Identity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Identity.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 		06B440A7218207DA0062BEDF /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				06B440B4218295D60062BEDF /* Identity.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -185,6 +188,7 @@
 				06B440A9218208DA0062BEDF /* Film.swift in Sources */,
 				06B440B1218213D00062BEDF /* CharacterListViewController.swift in Sources */,
 				06B440AF21820E3E0062BEDF /* Planet.swift in Sources */,
+				06B440B5218295D60062BEDF /* Identity.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
