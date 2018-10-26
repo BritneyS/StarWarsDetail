@@ -12,22 +12,40 @@ class CharacterListViewController: UIViewController {
     
     // MARK: Outlets
     
-    // MARK: Properties
+    @IBOutlet weak var characterListTableView: UITableView!
     
-    /// URLs
+    // MARK: Properties
     let filmURLstring = "https://swapi.co/api/films/2/"
-    let peopleURL = URL(string: "https://swapi.co/api/people/")
-    var filmObject: Film?
     var personObject: [Person?] = []
+    var filteredPersonArray: [Person] = []
+    var callCount = 0
+    var urlArray: [URL] = []
     
     // MARK: Lifecyle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        guard let peopleURL = peopleURL else { return }
-        getData(from: peopleURL)
+        urlArray = populateURLArray()
+        getDataFromURLArray(array: urlArray)
     }
     
+    // MARK: Methods
+    
+    func populateURLArray() -> [URL] {
+        var pageNumber = 1
+        while pageNumber <= 9 {
+            guard let peopleURL = URL(string: "https://swapi.co/api/people/?page=\(pageNumber)") else { return urlArray }
+            urlArray.append(peopleURL)
+            pageNumber += 1
+        }
+        return urlArray
+    }
+    
+    func getDataFromURLArray(array: [URL]) {
+        for url in array {
+            getData(from: url)
+        }
+    }
 
     /*
     // MARK: - Navigation
@@ -41,19 +59,52 @@ class CharacterListViewController: UIViewController {
 
 }
 
+// MARK: UITableViewDelegate and UITableViewDataSource Implementation
+
+extension CharacterListViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return filteredPersonArray.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: Identity.characterCell.cellID, for: indexPath)
+        cell.textLabel?.text = filteredPersonArray[indexPath.row].name
+        return cell
+    }
+}
+
+extension CharacterListViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+}
+
 // MARK: API Call
 
 extension CharacterListViewController {
     
     func parsePersonData(data: Data) -> [Person?] {
+        callCount += 1
         do {
             let decoder = JSONDecoder()
             let result = try decoder.decode(PersonArray.self, from: data)
+            print("🐱Successful parsing at call \(callCount)")
             return result.results
         } catch {
-            print("Error in JSON parsing for Person data")
+            print("🚨Error \(error) in JSON parsing for Person data for call \(callCount)")
             return []
         }
+    }
+    
+    func showNetworkError() {
+        let alert = UIAlertController(title: "Uh Oh!", message: "There was an error accessing the Star Wars API. " + " Please try again", preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
     }
     
     /// parse JSON response asynchronously
@@ -74,12 +125,11 @@ extension CharacterListViewController {
                     return
                 }
                 ///successful response
-                print("Successful response \(response!) with data: \(data!)")
+                print("✅Successful response \(response!) at 🦊 \(url) with data: \(data!)")
                 
                 guard let data = data else {
                     DispatchQueue.main.async {
-                        //TODO: Make this: self.isLoading = false
-                        //TODO: Write this: self.showNetworkError()
+                        self.showNetworkError()
                     }
                     return
                 }
@@ -93,8 +143,11 @@ extension CharacterListViewController {
                         guard let person = person else { return }
                         if person.films.contains(self.filmURLstring) {
                             print("👍Person Object characters: \(person.name)")
+                            self.filteredPersonArray.append(person)
                         }
                     }
+                   self.characterListTableView.reloadData()
+                   print("🃏Total: \(self.filteredPersonArray.count)")
                 }
             }
         })
