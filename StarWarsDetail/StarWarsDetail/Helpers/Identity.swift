@@ -11,12 +11,23 @@ import Foundation
 enum Identity: String {
     case characterCell
     
+    case characterListToDetailSegue
+    
     var cellID: String {
         switch self {
         case .characterCell:
             return "characterCell"
         default:
            return ""
+        }
+    }
+    
+    var segueID: String {
+        switch self {
+        case .characterListToDetailSegue:
+            return "characterListToDetail"
+        default:
+            return ""
         }
     }
 }
