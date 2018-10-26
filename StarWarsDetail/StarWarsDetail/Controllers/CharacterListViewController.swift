@@ -20,6 +20,7 @@ class CharacterListViewController: UIViewController {
     var filteredPersonArray: [Person] = []
     var callCount = 0
     var urlArray: [URL] = []
+    var selectedIndex = 0
     
     // MARK: Lifecyle
 
@@ -47,15 +48,19 @@ class CharacterListViewController: UIViewController {
         }
     }
 
-    /*
+   
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        switch segue.identifier {
+        case Identity.characterListToDetailSegue.segueID:
+            guard let characterDetailViewController = segue.destination as? CharacterDetailViewController else { return }
+            characterDetailViewController.person = filteredPersonArray[selectedIndex]
+        default:
+            return
+        }
     }
-    */
+    
 
 }
 
@@ -80,6 +85,10 @@ extension CharacterListViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        selectedIndex = indexPath.row
+        return indexPath
+    }
 }
 
 // MARK: API Call
