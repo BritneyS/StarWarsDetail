@@ -54,12 +54,14 @@ extension CharacterListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Identity.characterCell.cellID, for: indexPath)
-        for person in self.personObject {
-            guard let person = person else { return cell }
-            if person.films.contains(self.filmURLstring) {
+        //for person in self.personObject {
+            //guard let person = person else { return cell }
+        if personObject[indexPath.row]!.films.contains(self.filmURLstring) {
                 cell.textLabel?.text = personObject[indexPath.row]?.name
+            print("\(personObject[indexPath.row]?.name ?? "")")
+                //cell.textLabel?.text = person.name
             }
-        }
+        //}
         return cell
     }
 }
