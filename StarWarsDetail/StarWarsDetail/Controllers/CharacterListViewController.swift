@@ -99,6 +99,14 @@ extension CharacterListViewController {
         }
     }
     
+    func showNetworkError() {
+        let alert = UIAlertController(title: "Uh Oh!", message: "There was an error accessing the Star Wars API. " + " Please try again", preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
+    }
+    
     /// parse JSON response asynchronously
     
     func getData(from url: URL) {
@@ -121,8 +129,7 @@ extension CharacterListViewController {
                 
                 guard let data = data else {
                     DispatchQueue.main.async {
-                        //TODO: Make this: self.isLoading = false
-                        //TODO: Write this: self.showNetworkError()
+                        self.showNetworkError()
                     }
                     return
                 }
