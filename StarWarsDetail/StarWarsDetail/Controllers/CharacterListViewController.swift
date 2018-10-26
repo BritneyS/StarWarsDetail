@@ -11,6 +11,7 @@ import UIKit
 class CharacterListViewController: UIViewController {
     
     // MARK: Outlets
+    
     @IBOutlet weak var characterListTableView: UITableView!
     
     // MARK: Properties
@@ -46,12 +47,13 @@ class CharacterListViewController: UIViewController {
 // MARK: UITableViewDelegate and UITableViewDataSource Implementation
 
 extension CharacterListViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return personObject.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = characterListTableView.dequeueReusableCell(withIdentifier: "characterCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "characterCell", for: indexPath)
         cell.textLabel?.text = personObject[indexPath.row]?.name
         return cell
     }
@@ -113,6 +115,7 @@ extension CharacterListViewController {
                             print("👍Person Object characters: \(person.name)")
                         }
                     }
+                   self.characterListTableView.reloadData()
                 }
             }
         })
