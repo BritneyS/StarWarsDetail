@@ -17,9 +17,9 @@ class Person: Codable {
     let name: String
     let birth_year: String
     let gender: String
-    let species: [String]
-    let homeworld: String
-    let films: [String]
+    let species: [URL]
+    let homeworld: URL
+    let films: [URL]
 }
 
 

@@ -15,7 +15,7 @@ class CharacterListViewController: UIViewController {
     @IBOutlet weak var characterListTableView: UITableView!
     
     // MARK: Properties
-    let filmURLstring = "https://swapi.co/api/films/2/"
+    let filmURL = URL(string:"https://swapi.co/api/films/2/")
     var personObject: [Person?] = []
     var filteredPersonArray: [Person] = []
     var callCount = 0
@@ -49,7 +49,7 @@ class CharacterListViewController: UIViewController {
     }
 
    
-    // MARK: - Navigation
+    // MARK: Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
@@ -149,8 +149,11 @@ extension CharacterListViewController {
                 DispatchQueue.main.async {
                     ///work with data
                     for person in self.personObject {
-                        guard let person = person else { return }
-                        if person.films.contains(self.filmURLstring) {
+                        guard
+                            let person = person,
+                            let filmURL = self.filmURL
+                        else { return }
+                        if person.films.contains(filmURL) {
                             print("👍Person Object characters: \(person.name)")
                             self.filteredPersonArray.append(person)
                         }
