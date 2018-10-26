@@ -10,8 +10,6 @@ import Foundation
 
 class PersonArray: Codable {
     let count: Int
-    //let next: URL
-    //let previous: URL
     let results: [Person]
 }
 

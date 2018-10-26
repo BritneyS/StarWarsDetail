@@ -15,19 +15,7 @@ class CharacterListViewController: UIViewController {
     @IBOutlet weak var characterListTableView: UITableView!
     
     // MARK: Properties
-    
-    /// URLs
     let filmURLstring = "https://swapi.co/api/films/2/"
-//    let peopleURLOne = URL(string: "https://swapi.co/api/people/?page=1") /// TODO: Add multiple pages
-//    let peopleURLTwo = URL(string: "https://swapi.co/api/people/?page=2")
-//    let peopleURLThree = URL(string: "https://swapi.co/api/people/?page=3")
-//    let peopleURLFour = URL(string: "https://swapi.co/api/people/?page=4")
-//    let peopleURLFive = URL(string: "https://swapi.co/api/people/?page=5")
-//    let peopleURLSix = URL(string: "https://swapi.co/api/people/?page=6")
-//    let peopleURLSeven = URL(string: "https://swapi.co/api/people/?page=7")
-//    let peopleURLEight = URL(string: "https://swapi.co/api/people/?page=8")
-//    let peopleURLNine = URL(string: "https://swapi.co/api/people/?page=9")
-    var filmObject: Film?
     var personObject: [Person?] = []
     var filteredPersonArray: [Person] = []
     var callCount = 0
@@ -37,21 +25,25 @@ class CharacterListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        populateURLArray()
-        for url in urlArray {
-            getData(from: url)
-        }
+        urlArray = populateURLArray()
+        getDataFromURLArray(array: urlArray)
     }
     
     // MARK: Methods
     
-    func populateURLArray() {
+    func populateURLArray() -> [URL] {
         var pageNumber = 1
         while pageNumber <= 9 {
-            guard let peopleURL = URL(string: "https://swapi.co/api/people/?page=\(pageNumber)") else { return }
+            guard let peopleURL = URL(string: "https://swapi.co/api/people/?page=\(pageNumber)") else { return urlArray }
             urlArray.append(peopleURL)
             pageNumber += 1
+        }
+        return urlArray
+    }
+    
+    func getDataFromURLArray(array: [URL]) {
+        for url in array {
+            getData(from: url)
         }
     }
 
@@ -144,12 +136,11 @@ extension CharacterListViewController {
                         guard let person = person else { return }
                         if person.films.contains(self.filmURLstring) {
                             print("👍Person Object characters: \(person.name)")
-                            //print("💻Person Array next: \()")
                             self.filteredPersonArray.append(person)
                         }
                     }
                    self.characterListTableView.reloadData()
-                    print("🃏Total: \(self.filteredPersonArray.count)")
+                   print("🃏Total: \(self.filteredPersonArray.count)")
                 }
             }
         })
