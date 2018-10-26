@@ -21,6 +21,7 @@ class CharacterListViewController: UIViewController {
     let peopleURL = URL(string: "https://swapi.co/api/people/")
     var filmObject: Film?
     var personObject: [Person?] = []
+    var filteredPersonArray: [Person] = []
     
     // MARK: Lifecyle
 
@@ -49,19 +50,12 @@ class CharacterListViewController: UIViewController {
 extension CharacterListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return personObject.count
+        return filteredPersonArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Identity.characterCell.cellID, for: indexPath)
-        //for person in self.personObject {
-            //guard let person = person else { return cell }
-        if personObject[indexPath.row]!.films.contains(self.filmURLstring) {
-                cell.textLabel?.text = personObject[indexPath.row]?.name
-            print("\(personObject[indexPath.row]?.name ?? "")")
-                //cell.textLabel?.text = person.name
-            }
-        //}
+        cell.textLabel?.text = filteredPersonArray[indexPath.row].name
         return cell
     }
 }
@@ -126,6 +120,7 @@ extension CharacterListViewController {
                         guard let person = person else { return }
                         if person.films.contains(self.filmURLstring) {
                             print("👍Person Object characters: \(person.name)")
+                            self.filteredPersonArray.append(person)
                         }
                     }
                    self.characterListTableView.reloadData()
