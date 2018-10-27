@@ -39,6 +39,16 @@ class CharacterDetailViewController: UIViewController {
         getHomeworldData(from: homeworldURL)
     }
     
+    func getSpeciesData(from url: URL) {
+        let session = URLSession.shared
+        performSpeciesDataTask(session: session, url: url)
+    }
+    
+    func getHomeworldData(from url: URL) {
+        let session = URLSession.shared
+        performHomeworldDataTask(session: session, url: url)
+    }
+    
     func appendPersonSpecies(species: Species?) {
         guard let species = species else { return }
         personSpeciesArray.append(species)
@@ -100,11 +110,6 @@ extension CharacterDetailViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    func getSpeciesData(from url: URL) {
-        let session = URLSession.shared
-        performSpeciesDataTask(session: session, url: url)
-    }
-    
     func performSpeciesDataTask(session: URLSession, url: URL) {
         let dataTask = session.dataTask(with: url, completionHandler: { data, response, error in
             if let error = error {
@@ -136,11 +141,6 @@ extension CharacterDetailViewController {
             }
         })
         dataTask.resume()
-    }
-    
-    func getHomeworldData(from url: URL) {
-        let session = URLSession.shared
-        performHomeworldDataTask(session: session, url: url)
     }
     
     func performHomeworldDataTask(session: URLSession, url: URL) {

@@ -33,7 +33,7 @@ class CharacterListViewController: UIViewController {
     
     func populateCharacterNames() {
         urlArray = populateURLArray()
-        getData(from: urlArray)
+        getCharacterData(from: urlArray)
     }
     
     func populateURLArray() -> [URL] {
@@ -46,10 +46,9 @@ class CharacterListViewController: UIViewController {
         return urlArray
     }
     
-    func getData(from urlArray: [URL]) {
-        let session = URLSession.shared
+    func getCharacterData(from urlArray: [URL]) {
         for url in urlArray {
-            performPersonDataTask(session: session, url: url)
+            performPersonDataTask(with: url)
         }
     }
 
@@ -122,7 +121,10 @@ extension CharacterListViewController {
     
     /// parse JSON response asynchronously
     
-    func performPersonDataTask(session: URLSession, url: URL) {
+    func performPersonDataTask(with url: URL) {
+        
+        let session = URLSession.shared
+        
         let dataTask = session.dataTask(with: url, completionHandler: { data, response, error in
             if let error = error {
                 print(error)
