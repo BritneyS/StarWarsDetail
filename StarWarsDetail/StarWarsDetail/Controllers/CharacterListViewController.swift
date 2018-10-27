@@ -103,7 +103,6 @@ extension CharacterListViewController {
         do {
             let decoder = JSONDecoder()
             let result = try decoder.decode(PersonArray.self, from: data)
-            print("🐱Successful parsing at call \(callCount)")
             return result.results
         } catch {
             print("🚨Error \(error) in JSON parsing for Person data for call \(callCount)")
@@ -135,7 +134,6 @@ extension CharacterListViewController {
                     return
                 }
                 ///successful response
-                print("✅Successful response \(response!) at 🦊 \(url) with data: \(data!)")
                 
                 guard let data = data else {
                     DispatchQueue.main.async {
@@ -155,12 +153,12 @@ extension CharacterListViewController {
                             let filmURL = self.filmURL
                         else { return }
                         if person.films.contains(filmURL) {
-                            print("👍Person Object characters: \(person.name)")
+                            //print("👍Person Object characters: \(person.name)")
                             self.filteredPersonArray.append(person)
                         }
                     }
                    self.characterListTableView.reloadData()
-                   print("🃏Total: \(self.filteredPersonArray.count)")
+                   //print("🃏Total: \(self.filteredPersonArray.count)")
                 }
             }
         })

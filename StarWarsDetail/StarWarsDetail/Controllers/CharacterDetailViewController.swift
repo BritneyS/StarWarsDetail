@@ -114,7 +114,6 @@ extension CharacterDetailViewController {
                     return
                 }
                 ///successful response
-                print("✅Successful response \(response!) at 🦊 \(url) with data: \(data!)")
                 
                 guard let data = data else {
                     DispatchQueue.main.async {
@@ -150,7 +149,6 @@ extension CharacterDetailViewController {
                     return
                 }
                 ///successful response
-                print("✅Successful response \(response!) at 🦊 \(url) with data: \(data!)")
                 
                 guard let data = data else {
                     DispatchQueue.main.async {
