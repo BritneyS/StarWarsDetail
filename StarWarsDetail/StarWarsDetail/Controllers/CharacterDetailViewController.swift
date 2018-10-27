@@ -20,33 +20,23 @@ class CharacterDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("🙋‍♀️\(person!.name)")
-        speciesDataHandling()
-        homeworldDataHandling()
+        getSpeciesData()
+        getHomeworldData()
     }
     
     // MARK: Methods
     
-    func speciesDataHandling() {
+    func getSpeciesData() {
         let speciesURLArray = getSpeciesURLArray()
         for url in speciesURLArray {
             guard let url = url else { return }
-            getSpeciesData(from: url)
+            performSpeciesDataTask(with: url)
         }
     }
     
-    func homeworldDataHandling() {
+    func getHomeworldData() {
         guard let homeworldURL = getHomeWorldURL() else { return }
-        getHomeworldData(from: homeworldURL)
-    }
-    
-    func getSpeciesData(from url: URL) {
-        let session = URLSession.shared
-        performSpeciesDataTask(session: session, url: url)
-    }
-    
-    func getHomeworldData(from url: URL) {
-        let session = URLSession.shared
-        performHomeworldDataTask(session: session, url: url)
+        performHomeworldDataTask(with: homeworldURL)
     }
     
     func appendPersonSpecies(species: Species?) {
@@ -110,7 +100,10 @@ extension CharacterDetailViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    func performSpeciesDataTask(session: URLSession, url: URL) {
+    func performSpeciesDataTask(with url: URL) {
+        
+        let session = URLSession.shared
+        
         let dataTask = session.dataTask(with: url, completionHandler: { data, response, error in
             if let error = error {
                 print(error)
@@ -143,7 +136,10 @@ extension CharacterDetailViewController {
         dataTask.resume()
     }
     
-    func performHomeworldDataTask(session: URLSession, url: URL) {
+    func performHomeworldDataTask(with url: URL) {
+        
+        let session = URLSession.shared
+        
         let dataTask = session.dataTask(with: url, completionHandler: { data, response, error in
             if let error = error {
                 print(error)
