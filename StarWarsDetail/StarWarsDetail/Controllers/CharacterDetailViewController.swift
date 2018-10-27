@@ -21,3 +21,17 @@ class CharacterDetailViewController: UIViewController {
     
 
 }
+
+// MARK: API Call
+extension CharacterDetailViewController {
+    
+    func getSpeciesURLArray() -> [URL?] {
+        guard let person = person else { return [] }
+        return person.species
+    }
+    
+    func getHomeWorldURL() -> URL? {
+        guard let person = person else { return nil }
+        return person.homeworld
+    }
+}
