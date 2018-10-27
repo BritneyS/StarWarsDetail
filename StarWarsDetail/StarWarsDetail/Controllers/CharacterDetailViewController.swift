@@ -13,14 +13,31 @@ class CharacterDetailViewController: UIViewController {
     // MARK: Properties
     
     var person: Person?
-    var personSpecies: [Species] = []
-    var personHomeworld: Planet?
+    var personSpeciesObject: Species?
+    var personSpeciesArray: [Species] = []
+    var personHomeworldObject: Planet?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         print("🙋‍♀️\(person!.name)")
+        let speciesURLArray = getSpeciesURLArray()
+        for url in speciesURLArray {
+            getData(from: url!)
+        }
     }
     
+    // MARK: Methods
+    
+    func appendPersonSpecies(species: Species?) {
+        guard let species = species else { return }
+        personSpeciesArray.append(species)
+    }
+    
+    func populateSpeciesLabel() {
+        for species in personSpeciesArray {
+            print("Species: \(species.name)")
+        }
+    }
 
 }
 
@@ -37,14 +54,14 @@ extension CharacterDetailViewController {
         return person.homeworld
     }
     
-    func parseSpeciesData(data: Data) -> [Species] {
+    func parseSpeciesData(data: Data) -> Species? {
         do {
             let decoder = JSONDecoder()
-            let result = try decoder.decode([Species].self, from: data)
+            let result = try decoder.decode(Species.self, from: data)
             return result
         } catch {
             print("Error in parsing Species data: \(error)")
-            return []
+            return nil
         }
     }
     
@@ -93,11 +110,12 @@ extension CharacterDetailViewController {
                 }
                 
                 ///parse data
-                self.personSpecies = self.parseSpeciesData(data: data)
+                self.personSpeciesObject = self.parseSpeciesData(data: data)
                 ///work with parsed data
                 DispatchQueue.main.async {
                     ///work with speciesdata
-                    
+                    self.appendPersonSpecies(species: self.personSpeciesObject)
+                    self.populateSpeciesLabel()
                 }
             }
         })
