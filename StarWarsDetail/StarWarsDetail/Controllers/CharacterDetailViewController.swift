@@ -10,6 +10,15 @@ import UIKit
 
 class CharacterDetailViewController: UIViewController {
     
+    // MARK: Outlets
+    
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var birthYearLabel: UILabel!
+    @IBOutlet weak var genderLabel: UILabel!
+    @IBOutlet weak var homeworldLabel: UILabel!
+    @IBOutlet weak var speciesLabel: UILabel!
+    
+    
     // MARK: Properties
     
     var person: Person?
@@ -54,6 +63,8 @@ class CharacterDetailViewController: UIViewController {
         guard let personHomeworldObject = personHomeworldObject else { return }
         print("Homeworld: \(personHomeworldObject.name)")
     }
+    
+    
 
 }
 

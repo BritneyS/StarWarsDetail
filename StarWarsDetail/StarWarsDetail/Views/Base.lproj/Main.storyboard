@@ -145,6 +145,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="gHP-Vp-guv"/>
                     </view>
+                    <connections>
+                        <outlet property="birthYearLabel" destination="XPf-Lw-NSK" id="3Aa-7f-tMV"/>
+                        <outlet property="genderLabel" destination="ddm-lC-0fq" id="YMX-EH-3Ib"/>
+                        <outlet property="homeworldLabel" destination="Yyb-ZS-vBC" id="uhS-HU-mPk"/>
+                        <outlet property="nameLabel" destination="3n8-Sy-TSl" id="qda-qy-YdG"/>
+                        <outlet property="speciesLabel" destination="Sdb-5r-Bo8" id="f9W-Cy-J9s"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yHI-Ke-1Sm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
