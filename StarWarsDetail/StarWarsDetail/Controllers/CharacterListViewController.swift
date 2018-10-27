@@ -26,11 +26,15 @@ class CharacterListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        urlArray = populateURLArray()
-        getDataFromURLArray(array: urlArray)
+        populateCharacterNames()
     }
     
     // MARK: Methods
+    
+    func populateCharacterNames() {
+        urlArray = populateURLArray()
+        getData(from: urlArray)
+    }
     
     func populateURLArray() -> [URL] {
         var pageNumber = 1
@@ -42,13 +46,13 @@ class CharacterListViewController: UIViewController {
         return urlArray
     }
     
-    func getDataFromURLArray(array: [URL]) {
-        for url in array {
-            getData(from: url)
+    func getData(from urlArray: [URL]) {
+        let session = URLSession.shared
+        for url in urlArray {
+            performPersonDataTask(session: session, url: url)
         }
     }
 
-   
     // MARK: Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -117,11 +121,6 @@ extension CharacterListViewController {
     }
     
     /// parse JSON response asynchronously
-    
-    func getData(from url: URL) {
-        let session = URLSession.shared
-        performPersonDataTask(session: session, url: url)
-    }
     
     func performPersonDataTask(session: URLSession, url: URL) {
         let dataTask = session.dataTask(with: url, completionHandler: { data, response, error in
