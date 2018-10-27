@@ -66,4 +66,41 @@ extension CharacterDetailViewController {
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
     }
+    
+    func getData(from url: URL) {
+        let session = URLSession.shared
+        performSpeciesDataTask(session: session, url: url)
+    }
+    
+    func performSpeciesDataTask(session: URLSession, url: URL) {
+        let dataTask = session.dataTask(with: url, completionHandler: { data, response, error in
+            if let error = error {
+                print(error)
+            } else { ///Successful call
+                ///confirming response
+                guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                    print("Bad response: \(response!)")
+                    return
+                }
+                ///successful response
+                print("✅Successful response \(response!) at 🦊 \(url) with data: \(data!)")
+                
+                guard let data = data else {
+                    DispatchQueue.main.async {
+                        self.showNetworkError()
+                    }
+                    return
+                }
+                
+                ///parse data
+                self.personSpecies = self.parseSpeciesData(data: data)
+                ///work with parsed data
+                DispatchQueue.main.async {
+                    ///work with speciesdata
+                    
+                }
+            }
+        })
+        dataTask.resume()
+    }
 }
