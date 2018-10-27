@@ -20,16 +20,24 @@ class CharacterDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("🙋‍♀️\(person!.name)")
-        let speciesURLArray = getSpeciesURLArray()
-        for url in speciesURLArray {
-            getSpeciesData(from: url!)
-        }
-        
-        let homeworldURL = getHomeWorldURL()
-        getHomeworldData(from: homeworldURL!)
+        speciesDataHandling()
+        homeworldDataHandling()
     }
     
     // MARK: Methods
+    
+    func speciesDataHandling() {
+        let speciesURLArray = getSpeciesURLArray()
+        for url in speciesURLArray {
+            guard let url = url else { return }
+            getSpeciesData(from: url)
+        }
+    }
+    
+    func homeworldDataHandling() {
+        guard let homeworldURL = getHomeWorldURL() else { return }
+        getHomeworldData(from: homeworldURL)
+    }
     
     func appendPersonSpecies(species: Species?) {
         guard let species = species else { return }
