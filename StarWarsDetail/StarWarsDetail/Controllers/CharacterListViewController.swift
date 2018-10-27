@@ -26,11 +26,15 @@ class CharacterListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        urlArray = populateURLArray()
-        getDataFromURLArray(array: urlArray)
+        populateCharacterNames()
     }
     
     // MARK: Methods
+    
+    func populateCharacterNames() {
+        urlArray = populateURLArray()
+        getCharacterData(from: urlArray)
+    }
     
     func populateURLArray() -> [URL] {
         var pageNumber = 1
@@ -42,13 +46,12 @@ class CharacterListViewController: UIViewController {
         return urlArray
     }
     
-    func getDataFromURLArray(array: [URL]) {
-        for url in array {
-            getData(from: url)
+    func getCharacterData(from urlArray: [URL]) {
+        for url in urlArray {
+            performPersonDataTask(with: url)
         }
     }
 
-   
     // MARK: Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -100,7 +103,6 @@ extension CharacterListViewController {
         do {
             let decoder = JSONDecoder()
             let result = try decoder.decode(PersonArray.self, from: data)
-            print("🐱Successful parsing at call \(callCount)")
             return result.results
         } catch {
             print("🚨Error \(error) in JSON parsing for Person data for call \(callCount)")
@@ -118,12 +120,10 @@ extension CharacterListViewController {
     
     /// parse JSON response asynchronously
     
-    func getData(from url: URL) {
+    func performPersonDataTask(with url: URL) {
+        
         let session = URLSession.shared
-        performPersonDataTask(session: session, url: url)
-    }
-    
-    func performPersonDataTask(session: URLSession, url: URL) {
+        
         let dataTask = session.dataTask(with: url, completionHandler: { data, response, error in
             if let error = error {
                 print(error)
@@ -134,7 +134,6 @@ extension CharacterListViewController {
                     return
                 }
                 ///successful response
-                print("✅Successful response \(response!) at 🦊 \(url) with data: \(data!)")
                 
                 guard let data = data else {
                     DispatchQueue.main.async {
@@ -154,12 +153,12 @@ extension CharacterListViewController {
                             let filmURL = self.filmURL
                         else { return }
                         if person.films.contains(filmURL) {
-                            print("👍Person Object characters: \(person.name)")
+                            //print("👍Person Object characters: \(person.name)")
                             self.filteredPersonArray.append(person)
                         }
                     }
                    self.characterListTableView.reloadData()
-                   print("🃏Total: \(self.filteredPersonArray.count)")
+                   //print("🃏Total: \(self.filteredPersonArray.count)")
                 }
             }
         })
