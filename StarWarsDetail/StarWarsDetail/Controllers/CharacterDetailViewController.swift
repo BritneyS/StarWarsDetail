@@ -22,8 +22,11 @@ class CharacterDetailViewController: UIViewController {
         print("🙋‍♀️\(person!.name)")
         let speciesURLArray = getSpeciesURLArray()
         for url in speciesURLArray {
-            getData(from: url!)
+            getSpeciesData(from: url!)
         }
+        
+        let homeworldURL = getHomeWorldURL()
+        getHomeworldData(from: homeworldURL!)
     }
     
     // MARK: Methods
@@ -37,6 +40,11 @@ class CharacterDetailViewController: UIViewController {
         for species in personSpeciesArray {
             print("Species: \(species.name)")
         }
+    }
+    
+    func populateHomeworldLabel() {
+        guard let personHomeworldObject = personHomeworldObject else { return }
+        print("Homeworld: \(personHomeworldObject.name)")
     }
 
 }
@@ -84,7 +92,7 @@ extension CharacterDetailViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    func getData(from url: URL) {
+    func getSpeciesData(from url: URL) {
         let session = URLSession.shared
         performSpeciesDataTask(session: session, url: url)
     }
@@ -116,6 +124,43 @@ extension CharacterDetailViewController {
                     ///work with speciesdata
                     self.appendPersonSpecies(species: self.personSpeciesObject)
                     self.populateSpeciesLabel()
+                }
+            }
+        })
+        dataTask.resume()
+    }
+    
+    func getHomeworldData(from url: URL) {
+        let session = URLSession.shared
+        performHomeworldDataTask(session: session, url: url)
+    }
+    
+    func performHomeworldDataTask(session: URLSession, url: URL) {
+        let dataTask = session.dataTask(with: url, completionHandler: { data, response, error in
+            if let error = error {
+                print(error)
+            } else { ///Successful call
+                ///confirming response
+                guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                    print("Bad response: \(response!)")
+                    return
+                }
+                ///successful response
+                print("✅Successful response \(response!) at 🦊 \(url) with data: \(data!)")
+                
+                guard let data = data else {
+                    DispatchQueue.main.async {
+                        self.showNetworkError()
+                    }
+                    return
+                }
+                
+                ///parse data
+                self.personHomeworldObject = self.parseHomeworldData(data: data)
+                ///work with parsed data
+                DispatchQueue.main.async {
+                    ///work with speciesdata
+                    self.populateHomeworldLabel()
                 }
             }
         })
