@@ -8,12 +8,11 @@
 
 import Foundation
 
-class PersonArray: Codable {
-    let count: Int
+class PersonArray: Decodable {
     let results: [Person]
 }
 
-class Person: Codable {
+class Person: Decodable {
     let name: String
     let birth_year: String
     let gender: String

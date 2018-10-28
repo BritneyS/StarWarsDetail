@@ -8,10 +8,6 @@
 
 import Foundation
 
-class Planet: Codable {
+class Planet: Decodable {
     let name: String
-    
-    init(name: String) {
-        self.name = name
-    }
 }
