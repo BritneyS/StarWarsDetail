@@ -8,6 +8,6 @@
 
 import Foundation
 
-class Planet: Codable {
+class Planet: Decodable {
     let name: String
 }

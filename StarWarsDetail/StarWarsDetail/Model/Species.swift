@@ -8,6 +8,6 @@
 
 import Foundation
 
-class Species: Codable {
+class Species: Decodable {
     let name: String
 }
