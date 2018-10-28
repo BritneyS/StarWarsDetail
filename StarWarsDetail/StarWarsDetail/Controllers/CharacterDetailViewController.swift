@@ -10,6 +10,15 @@ import UIKit
 
 class CharacterDetailViewController: UIViewController {
     
+    // MARK: Outlets
+    
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var birthYearLabel: UILabel!
+    @IBOutlet weak var genderLabel: UILabel!
+    @IBOutlet weak var homeworldLabel: UILabel!
+    @IBOutlet weak var speciesLabel: UILabel!
+    
+    
     // MARK: Properties
     
     var person: Person?
@@ -19,9 +28,12 @@ class CharacterDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("🙋‍♀️\(person!.name)")
+        
         getSpeciesData()
         getHomeworldData()
+        populateNameLabel()
+        populateBirthYearLabel()
+        populateGenderLabel()
     }
     
     // MARK: Methods
@@ -46,13 +58,31 @@ class CharacterDetailViewController: UIViewController {
     
     func populateSpeciesLabel() {
         for species in personSpeciesArray {
-            print("Species: \(species.name)")
+            if personSpeciesArray.count == 1 {
+                speciesLabel.text = species.name
+            } else {
+                var speciesString = ""
+                speciesString += "\(species.name) \n"
+                speciesLabel.text = speciesString
+            }
         }
     }
     
     func populateHomeworldLabel() {
         guard let personHomeworldObject = personHomeworldObject else { return }
-        print("Homeworld: \(personHomeworldObject.name)")
+        homeworldLabel.text = personHomeworldObject.name
+    }
+    
+    func populateNameLabel() {
+        nameLabel.text = person?.name
+    }
+    
+    func populateBirthYearLabel() {
+        birthYearLabel.text = person?.birth_year
+    }
+    
+    func populateGenderLabel() {
+        genderLabel.text = person?.gender
     }
 
 }
