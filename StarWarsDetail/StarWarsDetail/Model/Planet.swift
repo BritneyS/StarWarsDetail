@@ -10,8 +10,4 @@ import Foundation
 
 class Planet: Codable {
     let name: String
-    
-    init(name: String) {
-        self.name = name
-    }
 }

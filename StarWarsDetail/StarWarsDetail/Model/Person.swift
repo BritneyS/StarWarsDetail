@@ -9,7 +9,6 @@
 import Foundation
 
 class PersonArray: Codable {
-    let count: Int
     let results: [Person]
 }
 
