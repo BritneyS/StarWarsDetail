@@ -19,7 +19,7 @@ class CharacterListViewController: UIViewController {
     var personObject: [Person?] = []
     var filteredPersonArray: [Person] = []
     var callCount = 0
-    var urlArray: [URL] = []
+    var peopleURLArray: [URL] = []
     var selectedIndex = 0
     
     // MARK: Lifecyle
@@ -32,18 +32,20 @@ class CharacterListViewController: UIViewController {
     // MARK: Methods
     
     func populateCharacterNames() {
-        urlArray = populateURLArray()
-        getCharacterData(from: urlArray)
+        peopleURLArray = populatePeopleURLArray()
+        getCharacterData(from: peopleURLArray)
     }
     
-    func populateURLArray() -> [URL] {
+    func populatePeopleURLArray() -> [URL] {
         var pageNumber = 1
         while pageNumber <= 9 {
-            guard let peopleURL = URL(string: "https://swapi.co/api/people/?page=\(pageNumber)") else { return urlArray }
-            urlArray.append(peopleURL)
+            guard let peopleURL = URL(string: "https://swapi.co/api/people/?page=\(pageNumber)") else {
+                print("Error when getting peopleURL")
+                return [] }
+            peopleURLArray.append(peopleURL)
             pageNumber += 1
         }
-        return urlArray
+        return peopleURLArray
     }
     
     func getCharacterData(from urlArray: [URL]) {
