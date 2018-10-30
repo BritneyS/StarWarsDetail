@@ -31,9 +31,7 @@ class CharacterDetailViewController: UIViewController {
         
         getSpeciesData()
         getHomeworldData()
-        populateNameLabel()
-        populateBirthYearLabel()
-        populateGenderLabel()
+        populatePersonLabels()
     }
     
     // MARK: Methods
@@ -51,7 +49,7 @@ class CharacterDetailViewController: UIViewController {
         performHomeworldDataTask(with: homeworldURL)
     }
     
-    func appendPersonSpecies(species: Species?) {
+    func populatePersonSpeciesArray(species: Species?) {
         guard let species = species else { return }
         personSpeciesArray.append(species)
     }
@@ -73,16 +71,23 @@ class CharacterDetailViewController: UIViewController {
         homeworldLabel.text = personHomeworldObject.name
     }
     
-    func populateNameLabel() {
-        nameLabel.text = person?.name
+    func populateNameLabel(from person: Person) {
+        nameLabel.text = person.name
     }
     
-    func populateBirthYearLabel() {
-        birthYearLabel.text = person?.birth_year
+    func populateBirthYearLabel(from person: Person) {
+        birthYearLabel.text = person.birth_year
     }
     
-    func populateGenderLabel() {
-        genderLabel.text = person?.gender
+    func populateGenderLabel(from person: Person) {
+        genderLabel.text = person.gender
+    }
+    
+    func populatePersonLabels() {
+        guard let person = person else { return }
+        populateNameLabel(from: person)
+        populateBirthYearLabel(from: person)
+        populateGenderLabel(from: person)
     }
 
 }
@@ -140,7 +145,7 @@ extension CharacterDetailViewController {
             } else { ///Successful call
                 ///confirming response
                 guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-                    print("Bad response: \(response!)")
+                    print("Bad response: \(response!) \n Error: \(error!)")
                     return
                 }
                 ///successful response
@@ -156,8 +161,8 @@ extension CharacterDetailViewController {
                 self.personSpeciesObject = self.parseSpeciesData(data: data)
                 ///work with parsed data
                 DispatchQueue.main.async {
-                    ///work with speciesdata
-                    self.appendPersonSpecies(species: self.personSpeciesObject)
+                    ///work with species data
+                    self.populatePersonSpeciesArray(species: self.personSpeciesObject)
                     self.populateSpeciesLabel()
                 }
             }
@@ -175,7 +180,7 @@ extension CharacterDetailViewController {
             } else { ///Successful call
                 ///confirming response
                 guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-                    print("Bad response: \(response!)")
+                    print("Bad response: \(response!) \n Error: \(error!)")
                     return
                 }
                 ///successful response
@@ -191,7 +196,7 @@ extension CharacterDetailViewController {
                 self.personHomeworldObject = self.parseHomeworldData(data: data)
                 ///work with parsed data
                 DispatchQueue.main.async {
-                    ///work with speciesdata
+                    ///work with homeworld data
                     self.populateHomeworldLabel()
                 }
             }
