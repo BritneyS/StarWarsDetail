@@ -140,7 +140,7 @@ extension CharacterDetailViewController {
             } else { ///Successful call
                 ///confirming response
                 guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-                    print("Bad response: \(response!)")
+                    print("Bad response: \(response!) \n Error: \(error!)")
                     return
                 }
                 ///successful response
@@ -175,7 +175,7 @@ extension CharacterDetailViewController {
             } else { ///Successful call
                 ///confirming response
                 guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-                    print("Bad response: \(response!)")
+                    print("Bad response: \(response!) \n Error: \(error!)")
                     return
                 }
                 ///successful response

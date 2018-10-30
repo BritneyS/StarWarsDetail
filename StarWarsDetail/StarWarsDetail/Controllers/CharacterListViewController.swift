@@ -53,6 +53,20 @@ class CharacterListViewController: UIViewController {
             performPersonDataTask(with: url)
         }
     }
+    
+    func populateFilteredPersonArray() {
+        for person in personObject {
+            guard
+                let person = person,
+                let filmURL = filmURL
+            else { return }
+            if person.films.contains(filmURL) {
+                //print("👍Person Object characters: \(person.name)")
+                self.filteredPersonArray.append(person)
+            }
+        }
+        //print("🃏Total: \(self.filteredPersonArray.count)")
+    }
 
     // MARK: Navigation
     
@@ -149,18 +163,8 @@ extension CharacterListViewController {
                 ///work with parsed data
                 DispatchQueue.main.async {
                     ///work with data
-                    for person in self.personObject {
-                        guard
-                            let person = person,
-                            let filmURL = self.filmURL
-                        else { return }
-                        if person.films.contains(filmURL) {
-                            //print("👍Person Object characters: \(person.name)")
-                            self.filteredPersonArray.append(person)
-                        }
-                    }
-                   self.characterListTableView.reloadData()
-                   //print("🃏Total: \(self.filteredPersonArray.count)")
+                    self.populateFilteredPersonArray()
+                    self.characterListTableView.reloadData()
                 }
             }
         })
