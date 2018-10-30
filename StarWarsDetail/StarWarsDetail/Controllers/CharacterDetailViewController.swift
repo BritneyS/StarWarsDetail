@@ -31,9 +31,7 @@ class CharacterDetailViewController: UIViewController {
         
         getSpeciesData()
         getHomeworldData()
-        populateNameLabel()
-        populateBirthYearLabel()
-        populateGenderLabel()
+        populatePersonLabels()
     }
     
     // MARK: Methods
@@ -73,16 +71,23 @@ class CharacterDetailViewController: UIViewController {
         homeworldLabel.text = personHomeworldObject.name
     }
     
-    func populateNameLabel() {
-        nameLabel.text = person?.name
+    func populateNameLabel(from person: Person) {
+        nameLabel.text = person.name
     }
     
-    func populateBirthYearLabel() {
-        birthYearLabel.text = person?.birth_year
+    func populateBirthYearLabel(from person: Person) {
+        birthYearLabel.text = person.birth_year
     }
     
-    func populateGenderLabel() {
-        genderLabel.text = person?.gender
+    func populateGenderLabel(from person: Person) {
+        genderLabel.text = person.gender
+    }
+    
+    func populatePersonLabels() {
+        guard let person = person else { return }
+        populateNameLabel(from: person)
+        populateBirthYearLabel(from: person)
+        populateGenderLabel(from: person)
     }
 
 }
