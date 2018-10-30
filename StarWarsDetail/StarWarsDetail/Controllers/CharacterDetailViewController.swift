@@ -51,7 +51,7 @@ class CharacterDetailViewController: UIViewController {
         performHomeworldDataTask(with: homeworldURL)
     }
     
-    func appendPersonSpecies(species: Species?) {
+    func populatePersonSpeciesArray(species: Species?) {
         guard let species = species else { return }
         personSpeciesArray.append(species)
     }
@@ -156,8 +156,8 @@ extension CharacterDetailViewController {
                 self.personSpeciesObject = self.parseSpeciesData(data: data)
                 ///work with parsed data
                 DispatchQueue.main.async {
-                    ///work with speciesdata
-                    self.appendPersonSpecies(species: self.personSpeciesObject)
+                    ///work with species data
+                    self.populatePersonSpeciesArray(species: self.personSpeciesObject)
                     self.populateSpeciesLabel()
                 }
             }
@@ -191,7 +191,7 @@ extension CharacterDetailViewController {
                 self.personHomeworldObject = self.parseHomeworldData(data: data)
                 ///work with parsed data
                 DispatchQueue.main.async {
-                    ///work with speciesdata
+                    ///work with homeworld data
                     self.populateHomeworldLabel()
                 }
             }
