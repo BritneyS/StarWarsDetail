@@ -19,6 +19,7 @@ class Person: Decodable {
     let species: [URL]
     let homeworld: URL
     let films: [URL]
+    let mass: String
 }
 
 
