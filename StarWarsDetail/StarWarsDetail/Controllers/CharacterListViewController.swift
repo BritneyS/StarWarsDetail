@@ -61,7 +61,7 @@ class CharacterListViewController: UIViewController {
                 let filmURL = filmURL
             else { return }
             if person.films.contains(filmURL) {
-                print("👍Person Object characters: \(person.mass)")
+                //print("👍Person Object characters: \(person.mass)")
                 self.filteredPersonArray.append(person)
             }
         }
