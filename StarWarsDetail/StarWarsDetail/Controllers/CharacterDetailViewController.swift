@@ -17,7 +17,7 @@ class CharacterDetailViewController: UIViewController {
     @IBOutlet weak var genderLabel: UILabel!
     @IBOutlet weak var homeworldLabel: UILabel!
     @IBOutlet weak var speciesLabel: UILabel!
-    
+    @IBOutlet weak var massLabel: UILabel!
     
     // MARK: Properties
     
@@ -83,11 +83,16 @@ class CharacterDetailViewController: UIViewController {
         genderLabel.text = person.gender
     }
     
+    func populateMassLabel(from person: Person) {
+        massLabel.text = person.mass
+    }
+    
     func populatePersonLabels() {
         guard let person = person else { return }
         populateNameLabel(from: person)
         populateBirthYearLabel(from: person)
         populateGenderLabel(from: person)
+        populateMassLabel(from: person)
     }
 
 }
